@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Airports</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Symbol</th>
+      <th>Sectional</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @airports.each do |airport| %>
+      <tr>
+        <td><%= link_to airport.name, airport %></td>
+        <td><%=airport.symbol%></td>
+        <td><%=airport.sectional%></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Airport', new_airport_path %>
