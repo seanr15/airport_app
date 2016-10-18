@@ -12,9 +12,9 @@ s = Rufus::Scheduler.singleton
 
 # Stupid recurrent task...
 #
-s.every '24h' do
+#s.every '24h' do
 
-#s.every '24h', :first_in => '1s' do
+s.every '24h', :first_in => '1s' do
 
   puts "Starting Scraping"
   things = []
