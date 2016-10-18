@@ -1,28 +1,53 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Airports</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Symbol</th>
-      <th>Sectional</th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-md-6">
+    <h1>Airports</h1>
 
-  <tbody>
-    <% @airports.each do |airport| %>
-      <tr>
-        <td><%= link_to airport.name, airport %></td>
-        <td><%=airport.symbol%></td>
-        <td><%=airport.sectional%></td>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Sectional</th>
+        </tr>
+      </thead>
 
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @airports.each do |airport| %>
+          <tr>
+            <td><%= link_to airport.name, airport %></td>
+            <td><%=airport.symbol%></td>
+            <td><%=airport.sectional%></td>
 
-<br>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h1>Heliports</h1>
 
-<%= link_to 'New Airport', new_airport_path %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Sectional</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @heliports.each do |heliport| %>
+          <tr>
+            <td><%= link_to heliport.name, heliport %></td>
+            <td><%=heliport.symbol%></td>
+            <td><%=heliport.sectional%></td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

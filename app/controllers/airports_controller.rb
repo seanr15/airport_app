@@ -4,7 +4,8 @@ class AirportsController < ApplicationController
   # GET /airports
   # GET /airports.json
   def index
-    @airports = Airport.order(:sectional).order(:name).all
+    @airports = Airport.where(airport_type: 'A').order(:sectional).order(:name).all
+    @heliports = Airport.where(airport_type: 'H').order(:sectional).order(:name).all
   end
 
   # GET /airports/1

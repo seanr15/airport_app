@@ -42,9 +42,19 @@ s.every '24h', :first_in => '1s' do
     puts name
     puts symbol
 
+
+
     airport = Airport.where(name: name, symbol: symbol).first_or_create
 
     puts airport.id
+
+    if airport.name.include?("Heliport")
+      airport.airport_type = "H"
+    else
+      airport.airport_type = "A"
+    end
+
+    airport.save
 
     first = true
 
