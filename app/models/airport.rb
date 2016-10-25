@@ -4,11 +4,34 @@ class Airport < ApplicationRecord
   def get_data
     api_key = ENV["WU_KEY"]
 
-    current_weather = HTTParty.get("http://api.wunderground.com/api/" + api_key +
-                      "/conditions/q/" + self.symbol + ".json")
+    if self.search_term.nil?
+      search_term = self.symbol
+    else
+      search_term = self.search_term
+    end
 
-    forecast = HTTParty.get("http://api.wunderground.com/api/" + api_key +
-                      "/hourly/q/" + self.symbol + ".json")
+    request = "http://api.wunderground.com/api/" + api_key +
+                      "/conditions/q/" + search_term + ".json"
+
+    puts "CURRENT WEATHER REQUEST: " + request.to_s
+
+    current_weather = HTTParty.get(request)
+
+    if current_weather["response"]["error"] != nil
+      return nil
+    end
+
+    puts "CURRENT RESPONSE: " + current_weather.to_s
+
+    request = "http://api.wunderground.com/api/" + api_key +
+                      "/hourly/q/" + search_term + ".json"
+
+    puts "FORECAST REQUEST: " + request.to_s
+
+    forecast = HTTParty.get(request)
+
+    puts "FORECAST RESPONSE: " + forecast.to_s
+
 
     ret_object = {}
     ret_object["time"] = [current_weather["current_observation"]["observation_time"]]

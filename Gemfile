@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'bootstrap', '~> 4.0.0.alpha4'
+gem 'rails-assets-tether'
 gem 'nokogiri'
 gem 'httparty'
 gem 'rufus-scheduler'
