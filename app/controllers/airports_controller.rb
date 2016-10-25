@@ -4,6 +4,7 @@ class AirportsController < ApplicationController
   # GET /airports
   # GET /airports.json
   def index
+    puts params.inspect
     @airports = Airport.where(airport_type: 'A').order(:sectional).order(:name).all
     @heliports = Airport.where(airport_type: 'H').order(:sectional).order(:name).all
   end
@@ -12,6 +13,10 @@ class AirportsController < ApplicationController
   # GET /airports/1.json
   def show
     @data = @airport.get_data
+    if @data.nil?
+      puts "ERROR"
+    end
+
     #file = File.read('tmp/test.json')
     #@data = JSON.parse(file)
     #puts @data.to_json
