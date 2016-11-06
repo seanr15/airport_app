@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161025032048) do
+ActiveRecord::Schema.define(version: 20161106025030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20161025032048) do
     t.string   "sectional"
     t.string   "airport_type"
     t.string   "search_term"
+    t.integer  "location_id"
+    t.index ["location_id"], name: "index_airports_on_location_id", using: :btree
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "runways", force: :cascade do |t|
@@ -52,5 +61,6 @@ ActiveRecord::Schema.define(version: 20161025032048) do
     t.index ["airport_id"], name: "index_runways_on_airport_id", using: :btree
   end
 
+  add_foreign_key "airports", "locations"
   add_foreign_key "runways", "airports"
 end

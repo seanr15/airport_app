@@ -5,8 +5,7 @@ class AirportsController < ApplicationController
   # GET /airports.json
   def index
     puts params.inspect
-    @airports = Airport.where(airport_type: 'A').order(:sectional).order(:name).all
-    @heliports = Airport.where(airport_type: 'H').order(:sectional).order(:name).all
+    @locations = Location.order(:name).all
   end
 
   # GET /airports/1
