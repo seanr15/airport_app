@@ -15,7 +15,6 @@
 
 </style>
 
-<p id="notice"><%= notice %></p>
 
 
 <div class="row">
@@ -35,15 +34,36 @@
       <% @locations.each_with_index  do | location, i | %>
           <div class="card">
             <div class="card-header" role="tab" id="heading<%=i%>">
-              <h5 class="mb-0">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=i%>" aria-expanded="false" aria-controls="collapse<%=i%>">
-                  <%= location.name %>
-                </a>
-              </h5>
+
+              <!--<h5 class="mb-0 pull-md-right">-->
+              <div class="row">
+                <div class="col-md-6">
+                  <h5 class="mb-0">
+                    <a class="collapsed location_link" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=i%>" aria-expanded="false" aria-controls="collapse<%=i%>" id="loc_link_<%=location.id%>">
+
+                      <%= location.name %>
+                    </a>
+                  </h5>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="mb-0 pull-md-right">
+
+                    <%= location.airports.length %>
+                  </h5>
+
+                </div>
+              </div>
+
+
+              <!--</h5>-->
+
+
+
+
             </div>
 
             <div id="collapse<%=i%>" class="collapse" role="tabpanel" aria-labelledby="heading<%=i%>">
-              <div class="card-block">
+              <div class="card-block" id="loc_card_block_<%=location.id%>">
                 <!--<div class="col-md-4">-->
                   <!--<div class="form-group pull-right">-->
                     <!--<input type="text" class="search form-control" placeholder="Search">-->
@@ -62,15 +82,7 @@
                   </tr>
                   </thead>
 
-                  <tbody>
-                  <% location.airports.order(:name).order(:sectional).each do |airport| %>
-                      <tr>
-                        <td><%= link_to airport.name, airport %></td>
-                        <td><%=airport.symbol%></td>
-                        <td><%=airport.sectional%></td>
-
-                      </tr>
-                  <% end %>
+                  <tbody id="loc_id_<%=location.id%>">
                   </tbody>
                 </table>
               </div>
@@ -114,4 +126,24 @@
 //    else {$('.no-result').hide();}
 //		  });
 //});
+
+
+$( ".location_link" ).click(function() {
+
+  location_id = $(this).attr('id').split("loc_link_")[1];
+
+  if ($("#loc_id_" + location_id).hasClass("expanded")) {
+    console.log("ALREADY EXPANDED");
+    return;
+  }
+
+  $.getJSON( '<%= locations_show_path%>', {id: location_id} )
+      .done(function( json ) {
+        for (var airport in json) {
+          $("#loc_id_" + location_id).append("<tr><td><a href='/airports/"+ json[airport]['id'] + "'>" + json[airport]['name'] + "</a></td><td>" + json[airport]['symbol'] + "</td><td>" + json[airport]['sectional'] + "</td>");
+          $("#loc_id_" + location_id).addClass("expanded");
+
+        }
+      })
+});
 </script>
