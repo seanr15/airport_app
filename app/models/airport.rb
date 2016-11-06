@@ -1,5 +1,6 @@
 class Airport < ApplicationRecord
   has_many :runways
+  belongs_to :location
 
   def get_data
     api_key = ENV["WU_KEY"]
