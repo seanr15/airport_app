@@ -1,6 +1,7 @@
 {
   "name": "airport_app",
   "scripts": {
+    "postdeploy": "rake db:seed"
   },
   "env": {
     "DEPLOY_TASKS": {
