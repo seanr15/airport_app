@@ -13,7 +13,28 @@ s = Rufus::Scheduler.singleton
 s.every '24h', :first_in => '1s' do
 
   puts "Starting Scraping"
-  Location.all.each do | location |
+
+  locations = []
+  Location.all.each do |location |
+    loc_obj = {}
+    loc_obj['id'] = location.id
+    airports = location.airports
+    time_stamp = Airport.where(location_id: location.id).maximum(:created_at)
+    puts time_stamp.class
+    if time_stamp == nil
+      time_stamp = Time.new(2000)
+    end
+    loc_obj['timestamp'] = time_stamp
+    locations.push(loc_obj)
+  end
+
+  locations.sort! { |x, y| x['timestamp'] <=> y['timestamp'] }
+
+  puts locations.to_s
+
+  locations.each do | loc_obj |
+
+    location = Location.find(loc_obj['id'])
 
     url = 'https://skyvector.com' + location.link
     page = Nokogiri::HTML(open(url))
