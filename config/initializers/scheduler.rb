@@ -13,7 +13,6 @@ s = Rufus::Scheduler.singleton
 s.every '24h', :first_in => '1s' do
 
   puts "Starting Scraping"
-
   Location.all.each do | location |
 
     url = 'https://skyvector.com' + location.link
@@ -39,19 +38,21 @@ s.every '24h', :first_in => '1s' do
 
 
 
-      airport = Airport.where(name: name, symbol: symbol).first_or_create
+      airport = Airport.where(name: name, symbol: symbol).first_or_initialize
 
       puts airport.id
 
       if airport.name.include?("Heliport")
         airport.airport_type = "H"
+        puts "NOT ADDING"
+        next
       else
         airport.airport_type = "A"
       end
 
       airport.location_id = location.id
 
-      airport.save
+
 
       first = true
 
@@ -63,6 +64,18 @@ s.every '24h', :first_in => '1s' do
             airport.save
 
           end
+
+          if header.content == "Airport Use:"
+            puts header.next_sibling.content
+            use = header.next_sibling.content.downcase
+
+            if !use.include?('public')
+              puts 'PRIVATE - NOT ADDING ' + airport.name
+              break
+            end
+          end
+
+          airport.save
 
           if header.content.start_with?("Runway ") && !header.content.include?("Heading")
 
@@ -106,11 +119,13 @@ s.every '24h', :first_in => '1s' do
 
               runway.save
 
-            end
-
-            first = !first
           end
-      end
+          
+
+          first = !first
+          end
+    end
+    puts uses.to_s
 
   end
 
