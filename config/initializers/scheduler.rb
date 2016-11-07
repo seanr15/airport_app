@@ -125,7 +125,6 @@ s.every '24h', :first_in => '1s' do
           first = !first
           end
     end
-    puts uses.to_s
 
   end
 
